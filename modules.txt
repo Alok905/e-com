@@ -1,0 +1,1 @@
+concurrently: run multiple npm commands simulteniously for example running both frontend and backend.
