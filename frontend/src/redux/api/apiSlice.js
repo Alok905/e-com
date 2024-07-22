@@ -5,6 +5,8 @@ const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL });
 
 // createApi takes a base api url (here baseQuery) and create multiple end points. Either we can mention end points here or anywhere else using injectEndPoints
 export const apiSlice = createApi({
+  // We can give any reducer path of our own also
+  // reducerPath: "itsmyreducerpath",
   baseQuery,
   tagTypes: ["Product", "Order", "User", "Category"],
   endpoints: () => ({}),
