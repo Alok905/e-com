@@ -7,12 +7,13 @@ import {
 } from "../../redux/api/categoryApiSlice";
 import CategoryForm from "../../components/CategoryForm";
 import { toast } from "react-toastify";
+import Modal from "../../components/Modal";
 
 const CategoryList = () => {
   const { data: categories } = useFetchCategoriesQuery();
   const [name, setName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [updateName, setUpdateName] = useState("");
+  const [updatingName, setUpdatingName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [createCategory] = useCreateCategoryMutation();
@@ -40,7 +41,51 @@ const CategoryList = () => {
     }
   };
 
-  const handleDeleteCategory = async (e) => {};
+  const handleDeleteCategory = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await deleteCategory(selectedCategory._id).unwrap();
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success(`${res.name} is deleted.`);
+        setModalVisible(false);
+        setSelectedCategory(null);
+        setUpdatingName("");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Deleting category failed. Please try again..");
+    }
+  };
+
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+
+    if (!updatingName) {
+      toast.error("Category name is required");
+      return;
+    }
+
+    try {
+      const res = await updateCategory({
+        categoryId: selectedCategory._id,
+        name: updatingName,
+      }).unwrap();
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success(`${res.name} is updated.`);
+        setModalVisible(false);
+        setSelectedCategory(null);
+        setUpdatingName("");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Updating category failed. Please try again..");
+    }
+  };
 
   return (
     <div className="ml-[10rem] flex flex-col md:flex-row">
@@ -50,7 +95,6 @@ const CategoryList = () => {
           value={name}
           setValue={setName}
           handleSubmit={handleCreateCategory}
-          handleDelete={handleDeleteCategory}
         />
         <br />
         <hr />
@@ -62,7 +106,7 @@ const CategoryList = () => {
                 onClick={() => {
                   setModalVisible(true);
                   setSelectedCategory(category);
-                  setUpdateName(category.name);
+                  setUpdatingName(category.name);
                 }}
               >
                 {category.name}
@@ -70,6 +114,15 @@ const CategoryList = () => {
             </div>
           ))}
         </div>
+        <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
+          <CategoryForm
+            value={updatingName}
+            setValue={setUpdatingName}
+            handleSubmit={handleUpdateCategory}
+            buttonText="Update"
+            handleDelete={handleDeleteCategory}
+          />
+        </Modal>
       </div>
     </div>
   );
