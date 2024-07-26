@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
+import productRouter from "./routes/productRoutes.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -26,5 +27,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/product", productRouter);
 
 app.listen(port, () => console.log("Server running"));
