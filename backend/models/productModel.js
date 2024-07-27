@@ -30,16 +30,17 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     image: {
       type: String,
-      required: true,
-    },
-    brand: {
-      type: String,
-      required: true,
-    },
-    quantity: {
-      type: Number,
       required: true,
     },
     category: {
@@ -47,7 +48,11 @@ const productSchema = mongoose.Schema(
       required: true,
       ref: "Category",
     },
-    description: {
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    brand: {
       type: String,
       required: true,
     },
@@ -62,11 +67,6 @@ const productSchema = mongoose.Schema(
       default: 0,
     },
     numReviews: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    price: {
       type: Number,
       required: true,
       default: 0,

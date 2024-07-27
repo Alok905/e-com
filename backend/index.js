@@ -9,6 +9,7 @@ import connectDB from "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import productRouter from "./routes/productRoutes.js";
+import uploadRouter from "./routes/uploadRoutes.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -27,6 +28,12 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
-app.use("/api/product", productRouter);
+app.use("/api/products", productRouter);
+app.use("/api/upload", uploadRouter);
+
+const __dirname = path.resolve();
+
+// It serve the /uploads (mentioned inside path.join) folder in localhost:5000/uploads path.
+app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
 
 app.listen(port, () => console.log("Server running"));
