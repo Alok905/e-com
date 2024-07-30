@@ -4,9 +4,9 @@ import Product from "../models/productModel.js";
 const addProduct = asyncHandler(async (req, res) => {
   try {
     // req.fields is created by formidable() which is non files, another is req.files
-    const { name, description, price, category, quantity, brand, image } =
-      req.fields;
+    const { name, description, price, category, quantity, brand } = req.fields;
 
+    console.log(req.fields);
     // validation
     switch (true) {
       case !name:
@@ -25,8 +25,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
     const product = new Product(req.fields);
 
-    const createdProduct = await product.save();
-    console.log(createdProduct);
+    await product.save();
 
     res.send(product);
   } catch (error) {
