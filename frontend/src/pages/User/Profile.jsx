@@ -20,6 +20,7 @@ const Profile = () => {
   useEffect(() => {
     setUsername(userInfo.username);
     setEmail(userInfo.email);
+    console.log("Helllo changed");
   }, [userInfo.username, userInfo.email]);
 
   const dispatch = useDispatch();
